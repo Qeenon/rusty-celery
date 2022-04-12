@@ -223,7 +223,7 @@ impl Broker for AMQPBroker {
             .properties
             .headers()
             .clone()
-            .unwrap_or_else(FieldTable::default);
+            .unwrap_or_default();
 
         // Increment the number of retries.
         let retries = match get_header_u32(&headers, "retries") {
