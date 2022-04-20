@@ -357,12 +357,23 @@ impl Broker for AMQPBroker {
     }
 }
 
+#[cfg(target_os = "windows")]
 async fn connect_uri(uri: AMQPUri) -> lapin::Result<Connection> {
     Connection::connect_uri(
         uri,
         ConnectionProperties::default()
             .with_executor(tokio_executor_trait::Tokio::current())
-            .with_reactor(tokio_reactor_trait::Tokio),
+    )
+    .await
+}
+
+#[cfg(not(target_os = "windows"))]
+async fn connect_uri(uri: AMQPUri) -> lapin::Result<Connection> {
+    Connection::connect_uri(
+        uri,
+        ConnectionProperties::default()
+            .with_executor(tokio_executor_trait::Tokio::current())
+            .with_reactor(tokio_reactor_trait::Tokio)
     )
     .await
 }
