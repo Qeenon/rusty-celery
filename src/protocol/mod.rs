@@ -427,7 +427,7 @@ impl Message {
             None => Value::Null,
         };
         let mut buffer = Uuid::encode_buffer();
-        let uuid = Uuid::new_v4().to_hyphenated().encode_lower(&mut buffer);
+        let uuid = Uuid::new_v4().hyphenated().encode_lower(&mut buffer);
         let delivery_tag = uuid.to_owned();
         let msg_json_value = json!({
             "body": base64::encode(self.raw_body.clone()),
@@ -472,7 +472,7 @@ where
     fn try_from(mut task_sig: Signature<T>) -> Result<Self, Self::Error> {
         // Create random correlation id.
         let mut buffer = Uuid::encode_buffer();
-        let uuid = Uuid::new_v4().to_hyphenated().encode_lower(&mut buffer);
+        let uuid = Uuid::new_v4().hyphenated().encode_lower(&mut buffer);
         let id = uuid.to_owned();
 
         let mut builder = MessageBuilder::<T>::new(id);
