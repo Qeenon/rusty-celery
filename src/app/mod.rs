@@ -724,6 +724,3 @@ impl Ender {
         Ok(SigType::Interrupt)
     }
 }
-
-#[cfg(test)]
-mod tests;

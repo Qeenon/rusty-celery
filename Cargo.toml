@@ -26,7 +26,7 @@ name = "celery_app"
 [dependencies]
 base64 = "0.13"
 chrono = { version = "0.4", features = ["serde"] }
-tokio = { version = "1.19.2", features = ["full"]}
+tokio = { version = "1.20.1", features = ["rt-multi-thread", "signal", "parking_lot", "macros", "fs"]}
 tokio-executor-trait = "2.1.0"
 tokio-reactor-trait = "1.1.0"
 tokio-stream = "0.1.9"
@@ -45,7 +45,7 @@ uuid = { version = "1.1.2", features = ["v4"]}
 rand = "0.8"
 celery-codegen = { version = "0.4.0-rcn.666", path = "./celery-codegen", optional = true }
 colored = "2"
-once_cell = { version = "1.12" }
+once_cell = { version = "1.13" }
 globset = "0.4"
 hostname = "0.3"
 redis = { version = "0.21.5", features=["connection-manager", "tokio-comp"] }
