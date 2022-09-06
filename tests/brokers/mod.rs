@@ -1,2 +1,0 @@
-mod amqp;
-mod redis;

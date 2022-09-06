@@ -209,7 +209,11 @@ where
             let raw_body = match self.message.properties.content_type.as_str() {
                 "application/json" => serde_json::to_vec(&body)?,
                 #[cfg(any(test, feature = "extra_content_types"))]
-                "application/x-yaml" => serde_yaml::to_vec(&body)?,
+                "application/x-yaml" => {
+                    let mut vec = Vec::with_capacity(128);
+                    serde_yaml::to_writer(&mut vec, &body)?;
+                    vec
+                },
                 #[cfg(any(test, feature = "extra_content_types"))]
                 "application/x-python-serialize" => {
                     serde_pickle::to_vec(&body, serde_pickle::SerOptions::new())?
