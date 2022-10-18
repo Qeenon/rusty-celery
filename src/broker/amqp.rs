@@ -513,18 +513,18 @@ impl TryDeserializeMessage for Delivery {
                 reply_to: self.properties.reply_to().as_ref().map(|v| v.to_string()),
             },
             headers: MessageHeaders {
-                id: get_header_str_required(headers, "id")?,
-                task: get_header_str_required(headers, "task")?,
-                lang: get_header_str(headers, "lang"),
-                root_id: get_header_str(headers, "root_id"),
-                parent_id: get_header_str(headers, "parent_id"),
-                group: get_header_str(headers, "group"),
-                meth: get_header_str(headers, "meth"),
-                shadow: get_header_str(headers, "shadow"),
-                eta: get_header_dt(headers, "eta"),
-                expires: get_header_dt(headers, "expires"),
-                retries: get_header_u32(headers, "retries"),
-                timelimit: headers
+                id:         get_header_str_required(headers, "id")?,
+                task:       get_header_str_required(headers, "task")?,
+                lang:       get_header_str(headers, "lang"),
+                root_id:    get_header_str(headers, "root_id"),
+                parent_id:  get_header_str(headers, "parent_id"),
+                group:      get_header_str(headers, "group"),
+                meth:       get_header_str(headers, "meth"),
+                shadow:     get_header_str(headers, "shadow"),
+                eta:        get_header_dt(headers, "eta"),
+                expires:    get_header_dt(headers, "expires"),
+                retries:    get_header_u32(headers, "retries"),
+                timelimit:  headers
                     .inner()
                     .get("timelimit")
                     .and_then(|v| match v {
@@ -579,14 +579,14 @@ fn get_header_u32(headers: &FieldTable, key: &str) -> Option<u32> {
 
 fn amqp_value_to_u32(v: &AMQPValue) -> Option<u32> {
     match v {
-        AMQPValue::ShortShortInt(n) => Some(*n as u32),
-        AMQPValue::ShortShortUInt(n) => Some(*n as u32),
-        AMQPValue::ShortInt(n) => Some(*n as u32),
-        AMQPValue::ShortUInt(n) => Some(*n as u32),
-        AMQPValue::LongInt(n) => Some(*n as u32),
-        AMQPValue::LongUInt(n) => Some(*n as u32),
-        AMQPValue::LongLongInt(n) => Some(*n as u32),
-        _ => None,
+        AMQPValue::ShortShortInt(n)     => Some(*n as u32),
+        AMQPValue::ShortShortUInt(n)    => Some(*n as u32),
+        AMQPValue::ShortInt(n)          => Some(*n as u32),
+        AMQPValue::ShortUInt(n)         => Some(*n as u32),
+        AMQPValue::LongInt(n)           => Some(*n as u32),
+        AMQPValue::LongUInt(n)          => Some(*n),
+        AMQPValue::LongLongInt(n)       => Some(*n as u32),
+        _                               => None,
     }
 }
 
