@@ -114,7 +114,8 @@ pub trait Task: Send + Sync + std::marker::Sized {
                 let now_millis = now.subsec_millis();
                 let eta_secs = now_secs + countdown;
                 Some(DateTime::<Utc>::from_utc(
-                    NaiveDateTime::from_timestamp(eta_secs as i64, now_millis * 1000),
+                    NaiveDateTime::from_timestamp_opt(eta_secs as i64, now_millis * 1000)
+                                  .unwrap_or_default(),
                     Utc,
                 ))
             }
@@ -148,7 +149,8 @@ pub trait Task: Send + Sync + std::marker::Sized {
                 let eta_secs = now_secs + delay_secs;
                 let eta_millis = now_millis + delay_millis;
                 Some(DateTime::<Utc>::from_utc(
-                    NaiveDateTime::from_timestamp(eta_secs as i64, eta_millis * 1000),
+                    NaiveDateTime::from_timestamp_opt(eta_secs as i64, eta_millis * 1000)
+                                  .unwrap_or_default(),
                     Utc,
                 ))
             }

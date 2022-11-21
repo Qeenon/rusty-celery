@@ -419,8 +419,9 @@ where
                             // Check that date is real (time zones are complicated...)
                             let timezone = now.timezone();
                             if let Some(candidate) = timezone
-                                .ymd(year as i32, month, month_day)
-                                .and_hms_opt(hour, minute, 0)
+                                .with_ymd_and_hms( year as i32, month, month_day
+                                                 , hour, minute, 0 )
+                                .earliest()
                             {
                                 // Check that the day of week is correct
                                 if !self
@@ -518,13 +519,14 @@ mod tests {
         let date =
             chrono::DateTime::parse_from_str("2020-10-19 20:29:23 +0112", "%Y-%m-%d %H:%M:%S %z")
                 .unwrap();
-        let time_zone = chrono::offset::FixedOffset::east(3600 + 600 + 120);
-        let cron_schedule =
-            CronSchedule::from_string_with_time_zone("3 12 29-31 1-6 2-4", time_zone).unwrap();
-        let expected_date =
-            chrono::DateTime::parse_from_str("2021-03-30 12:03:00 +0112", "%Y-%m-%d %H:%M:%S %z")
-                .unwrap();
-        assert_eq!(Some(expected_date), cron_schedule.next(date));
+        if let Some(time_zone) = chrono::offset::FixedOffset::east_opt(3600 + 600 + 120) {
+            let cron_schedule =
+                CronSchedule::from_string_with_time_zone("3 12 29-31 1-6 2-4", time_zone).unwrap();
+            let expected_date =
+                chrono::DateTime::parse_from_str("2021-03-30 12:03:00 +0112", "%Y-%m-%d %H:%M:%S %z")
+                    .unwrap();
+            assert_eq!(Some(expected_date), cron_schedule.next(date));
+        }
     }
 
     fn cron_schedule_equal<Z: TimeZone>(

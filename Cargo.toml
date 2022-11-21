@@ -27,7 +27,7 @@ name = "celery_app"
 [dependencies]
 base64 = "0.13"
 chrono = { version = "0.4", features = ["serde"] }
-tokio = { version = "1.21.2", features = ["rt-multi-thread", "signal", "parking_lot", "macros", "fs"]}
+tokio = { version = "1.22", features = ["rt-multi-thread", "signal", "parking_lot", "macros", "fs"]}
 tokio-executor-trait = "2.1.0"
 tokio-reactor-trait = "1.1.0"
 tokio-stream = "0.1.11"
@@ -46,7 +46,7 @@ uuid = { version = "1.2.1", features = ["v4"]}
 rand = "0.8"
 celery-codegen = { version = "0.4.0-rcn.666", path = "./celery-codegen", optional = true }
 colored = "2"
-once_cell = { version = "1.15" }
+once_cell = { version = "1.16" }
 globset = "0.4"
 hostname = "0.3"
 redis = { version = "0.22.0", features=["connection-manager", "tokio-comp"] }
@@ -56,7 +56,7 @@ rmp-serde = "1.1"
 rmpv = { version = "1.0.0", features = ["with-serde"] }
 serde_yaml = "0.9"
 serde-pickle = "1.1"
-env_logger = "0.9"
+env_logger = "0.10"
 anyhow = "1.0"
 structopt = "0.3"
 
