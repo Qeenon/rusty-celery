@@ -687,7 +687,7 @@ impl Delivery {
     pub fn try_deserialize_message(&self) -> Result<Message, ProtocolError> {
         let raw_body = match self.properties.body_encoding {
             BodyEncoding::Base64 => base64::decode(self.body.clone())
-                .map_err(|e| ProtocolError::InvalidProperty(format!("body error: {}", e)))?,
+                .map_err(|e| ProtocolError::InvalidProperty(format!("body error: {e}")))?,
         };
         Ok(Message {
             properties: MessageProperties {

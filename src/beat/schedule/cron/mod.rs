@@ -335,15 +335,14 @@ where
         let components: Vec<_> = schedule.split_whitespace().collect();
         if components.len() != 5 {
             Err(ScheduleError::CronScheduleError(format!(
-                "'{}' is not a valid cron schedule: invalid number of elements",
-                schedule
-            )))
+                "'{schedule}' is not a valid cron schedule: invalid number of elements")
+            ))
         } else {
-            let minutes = parse_longhand::<Minutes>(components[0])?;
-            let hours = parse_longhand::<Hours>(components[1])?;
-            let month_days = parse_longhand::<MonthDays>(components[2])?;
-            let months = parse_longhand::<Months>(components[3])?;
-            let week_days = parse_longhand::<WeekDays>(components[4])?;
+            let minutes     = parse_longhand::<Minutes>(components[0])?;
+            let hours       = parse_longhand::<Hours>(components[1])?;
+            let month_days  = parse_longhand::<MonthDays>(components[2])?;
+            let months      = parse_longhand::<Months>(components[3])?;
+            let week_days   = parse_longhand::<WeekDays>(components[4])?;
 
             CronSchedule::new_with_time_zone(
                 minutes, hours, month_days, months, week_days, time_zone,

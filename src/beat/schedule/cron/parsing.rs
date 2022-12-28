@@ -16,15 +16,14 @@ pub enum Shorthand {
 pub fn parse_shorthand(s: &str) -> Result<Shorthand, ScheduleError> {
     use Shorthand::*;
     match s.to_lowercase().as_str() {
-        "@yearly" => Ok(Yearly),
-        "@monthly" => Ok(Monthly),
-        "@weekly" => Ok(Weekly),
-        "@daily" => Ok(Daily),
-        "@hourly" => Ok(Hourly),
+        "@yearly"   => Ok(Yearly),
+        "@monthly"  => Ok(Monthly),
+        "@weekly"   => Ok(Weekly),
+        "@daily"    => Ok(Daily),
+        "@hourly"   => Ok(Hourly),
         _ => Err(ScheduleError::CronScheduleError(format!(
-            "'{}' is not a valid shorthand for a cron schedule",
-            s
-        ))),
+            "'{s}' is not a valid shorthand for a cron schedule")
+        )),
     }
 }
 
