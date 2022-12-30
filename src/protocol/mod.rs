@@ -13,6 +13,7 @@ use std::convert::TryFrom;
 use std::process;
 use std::time::SystemTime;
 use uuid::Uuid;
+use base64::{Engine as _, engine::general_purpose};
 
 use crate::error::{ContentTypeError, ProtocolError};
 use crate::task::{Signature, Task};
@@ -434,7 +435,7 @@ impl Message {
         let uuid = Uuid::new_v4().hyphenated().encode_lower(&mut buffer);
         let delivery_tag = uuid.to_owned();
         let msg_json_value = json!({
-            "body": base64::encode(self.raw_body.clone()),
+            "body": general_purpose::STANDARD.encode(self.raw_body.clone()),
             "content-encoding": self.properties.content_encoding.clone(),
             "content-type": self.properties.content_type.clone(),
             "headers": {
@@ -686,7 +687,7 @@ pub struct Delivery {
 impl Delivery {
     pub fn try_deserialize_message(&self) -> Result<Message, ProtocolError> {
         let raw_body = match self.properties.body_encoding {
-            BodyEncoding::Base64 => base64::decode(self.body.clone())
+            BodyEncoding::Base64 => general_purpose::STANDARD.decode(self.body.clone())
                 .map_err(|e| ProtocolError::InvalidProperty(format!("body error: {e}")))?,
         };
         Ok(Message {

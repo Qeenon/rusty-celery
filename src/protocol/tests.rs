@@ -5,6 +5,7 @@ use crate::error::TaskError;
 use crate::task::{Request, Task, TaskOptions};
 use chrono::{DateTime, SecondsFormat, Utc};
 use std::time::SystemTime;
+use base64::engine::general_purpose;
 
 #[derive(Clone, Serialize, Deserialize)]
 struct TestTaskParams {
@@ -227,7 +228,7 @@ fn test_serialization() {
     assert_eq!(ser_msg_json["headers"]["argsrepr"], "(1)");
     assert_eq!(ser_msg_json["headers"]["kwargsrepr"], "{'y': 2}");
     assert_eq!(ser_msg_json["headers"]["origin"], "gen123@piper");
-    let body = base64::decode(ser_msg_json["body"].as_str().unwrap()).unwrap();
+    let body = general_purpose::STANDARD.decode(ser_msg_json["body"].as_str().unwrap()).unwrap();
     assert_eq!(body.len(), 73);
     assert_eq!(&body, JSON.as_bytes());
 }
